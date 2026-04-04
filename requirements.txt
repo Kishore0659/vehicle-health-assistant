@@ -8,6 +8,7 @@ pydantic==2.8.2
 # RAG components
 sentence-transformers==3.0.1
 faiss-cpu==1.7.4
+numpy<2
 
 # LLM
 anthropic==0.34.2
