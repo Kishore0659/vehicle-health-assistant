@@ -1,0 +1,107 @@
+Problem: Car engine not starting
+Cause: Dead battery, faulty starter motor, bad ignition switch, empty fuel tank, or security immobilizer activated
+Solution: Jump-start or replace battery, replace starter motor, check ignition switch, refuel, reset immobilizer
+Severity: Moderate
+Cost: INR 500 to INR 8000
+
+Problem: Car engine overheating
+Cause: Low coolant level, faulty thermostat, broken water pump, clogged radiator, or leaking head gasket
+Solution: Top up coolant, replace thermostat, replace water pump, flush radiator, fix head gasket
+Severity: High
+Cost: INR 1000 to INR 25000
+
+Problem: Car brake making squealing noise
+Cause: Worn brake pads, glazed rotors, dust or debris on brakes, low-quality brake pads
+Solution: Replace brake pads, resurface or replace rotors, clean brake assembly
+Severity: High
+Cost: INR 1500 to INR 8000
+
+Problem: Car AC not cooling properly
+Cause: Low refrigerant, faulty compressor, clogged cabin air filter, condenser blockage
+Solution: Recharge refrigerant, replace compressor, change cabin filter, clean condenser
+Severity: Low
+Cost: INR 500 to INR 15000
+
+Problem: Car making grinding noise when turning
+Cause: Worn CV joints, low power steering fluid, damaged wheel bearing, or worn tie rod ends
+Solution: Replace CV axle/joints, top up power steering fluid, replace wheel bearing, replace tie rod ends
+Severity: High
+Cost: INR 2000 to INR 12000
+
+Problem: Car vibrating while driving
+Cause: Unbalanced or worn tyres, bent rim, loose wheel bolts, worn shock absorbers
+Solution: Balance and rotate tyres, replace rim, tighten wheel bolts, replace shock absorbers
+Severity: Moderate
+Cost: INR 500 to INR 10000
+
+Problem: Car engine oil light on dashboard
+Cause: Low oil level, oil pressure sensor failure, oil pump failure, or severe oil leak
+Solution: Check and top up engine oil, replace sensor, repair oil pump, fix leaks
+Severity: High
+Cost: INR 300 to INR 20000
+
+Problem: Car check engine light on
+Cause: Faulty O2 sensor, loose fuel cap, catalytic converter failure, MAF sensor issue
+Solution: Run OBD-II diagnostic scan, tighten fuel cap, replace faulty sensor or converter
+Severity: Moderate
+Cost: INR 500 to INR 30000
+
+Problem: Car transmission slipping or jerking
+Cause: Low transmission fluid, worn clutch (manual), solenoid failure, or damaged transmission
+Solution: Check and top up transmission fluid, replace clutch, repair solenoid, rebuild transmission
+Severity: High
+Cost: INR 2000 to INR 60000
+
+Problem: Car battery draining quickly
+Cause: Parasitic drain, alternator not charging, old battery, leaving lights on
+Solution: Check for electrical drain, test and replace alternator, replace battery
+Severity: Moderate
+Cost: INR 1000 to INR 8000
+
+Problem: Car fuel efficiency has dropped significantly
+Cause: Dirty air filter, faulty oxygen sensor, low tyre pressure, fuel injector clogging
+Solution: Replace air filter, replace O2 sensor, inflate tyres, clean or replace injectors
+Severity: Low
+Cost: INR 300 to INR 5000
+
+Problem: Car windows fogging up from inside
+Cause: Heater core leak, high moisture inside cabin, faulty AC dehumidifier
+Solution: Check heater core, use AC to dehumidify, check cabin ventilation
+Severity: Low
+Cost: INR 200 to INR 12000
+
+Problem: Car suspension making clunking noise
+Cause: Worn ball joints, broken sway bar links, worn strut mounts, loose exhaust components
+Solution: Replace ball joints, replace sway bar links and mounts, tighten exhaust
+Severity: High
+Cost: INR 2000 to INR 15000
+
+Problem: Car steering wheel shaking at high speed
+Cause: Wheel imbalance, worn tie rod ends, damaged CV joint, loose steering components
+Solution: Balance wheels, replace tie rod ends, replace CV joint, check steering rack
+Severity: Moderate
+Cost: INR 500 to INR 10000
+
+Problem: Car producing white smoke from exhaust
+Cause: Coolant burning in engine, blown head gasket, cracked engine block, condensation (normal when cold)
+Solution: Check coolant level, inspect head gasket, pressure test cooling system
+Severity: High
+Cost: INR 5000 to INR 50000
+
+Problem: Car door lock not working
+Cause: Faulty actuator, broken linkage, blown fuse, dead remote battery
+Solution: Replace door lock actuator, fix linkage, check fuse, replace remote battery
+Severity: Low
+Cost: INR 300 to INR 4000
+
+Problem: Car burning smell from brakes
+Cause: Stuck brake caliper, new brake pads bedding in, overheating brakes from downhill driving
+Solution: Check caliper for sticking, allow new pads to bed in, use engine braking on hills
+Severity: High
+Cost: INR 1500 to INR 10000
+
+Problem: Car hard to start in cold weather
+Cause: Thickened engine oil, weak battery, fuel line issues, glow plug failure (diesel)
+Solution: Use recommended grade engine oil, replace battery, replace glow plugs
+Severity: Moderate
+Cost: INR 500 to INR 6000

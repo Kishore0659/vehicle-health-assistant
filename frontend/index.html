@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Vehicle Health Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0c0f;
+      --surface:   #111418;
+      --surface2:  #181c22;
+      --border:    #22282f;
+      --accent:    #f0a500;
+      --accent2:   #e05c00;
+      --text:      #e8eaed;
+      --muted:     #6b7280;
+      --low:       #22c55e;
+      --moderate:  #f59e0b;
+      --high:      #ef4444;
+      --font-head: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius:    12px;
+      --glow:      0 0 40px rgba(240,165,0,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BACKGROUND ──────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(240,165,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,165,0,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ───────────────────────────────────────────────────── */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 56px 24px 40px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(240,165,0,0.08);
+      border: 1px solid rgba(240,165,0,0.25);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+
+    .header-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    h1 {
+      font-family: var(--font-head);
+      font-size: clamp(52px, 8vw, 96px);
+      letter-spacing: 0.04em;
+      line-height: 0.92;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 300;
+      max-width: 480px;
+      margin: 0 auto;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── LAYOUT ───────────────────────────────────────────────────── */
+    main {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── CARD ─────────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    /* ── VEHICLE SELECTOR ─────────────────────────────────────────── */
+    .vehicle-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .vehicle-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+
+    .vehicle-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(240,165,0,0.05);
+    }
+
+    .vehicle-btn.active {
+      border-color: var(--accent);
+      background: rgba(240,165,0,0.1);
+      color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .vehicle-icon {
+      font-size: 32px;
+      line-height: 1;
+      filter: grayscale(1);
+      transition: filter 0.2s;
+    }
+
+    .vehicle-btn:hover .vehicle-icon,
+    .vehicle-btn.active .vehicle-icon { filter: grayscale(0); }
+
+    /* ── INPUT AREA ───────────────────────────────────────────────── */
+    .input-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 16px;
+      resize: vertical;
+      min-height: 110px;
+      transition: border-color 0.2s;
+      outline: none;
+      line-height: 1.6;
+    }
+
+    textarea:focus { border-color: var(--accent); }
+    textarea::placeholder { color: var(--muted); }
+
+    /* ── QUICK PROMPTS ─────────────────────────────────────────────── */
+    .quick-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    /* ── SUBMIT BUTTON ─────────────────────────────────────────────── */
+    .submit-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px;
+    }
+
+    button.diagnose {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: #000;
+      font-family: var(--font-head);
+      font-size: 18px;
+      letter-spacing: 0.06em;
+      padding: 14px 36px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    button.diagnose:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(240,165,0,0.4);
+    }
+
+    button.diagnose:disabled {
+      opacity: 0.5;
+      transform: none;
+      cursor: not-allowed;
+    }
+
+    /* ── LOADING ───────────────────────────────────────────────────── */
+    .loader-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 48px 0;
+    }
+
+    .spinner {
+      width: 48px; height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loader-text {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── RESULT CARD ───────────────────────────────────────────────── */
+    .result-card { animation: slideUp 0.4s ease; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-title {
+      font-family: var(--font-head);
+      font-size: 28px;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .severity-badge {
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .severity-Low      { background: rgba(34,197,94,0.15);  color: var(--low);      border: 1px solid rgba(34,197,94,0.3); }
+    .severity-Moderate { background: rgba(245,158,11,0.15); color: var(--moderate); border: 1px solid rgba(245,158,11,0.3); }
+    .severity-High     { background: rgba(239,68,68,0.15);  color: var(--high);     border: 1px solid rgba(239,68,68,0.3); }
+
+    .result-summary {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    /* ── RESULT GRID ─────────────────────────────────────────────── */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .result-grid { grid-template-columns: 1fr; }
+      .vehicle-grid { grid-template-columns: 1fr; }
+    }
+
+    .result-section {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .section-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .section-list li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-size: 12px;
+    }
+
+    /* ── COST BLOCK ─────────────────────────────────────────────── */
+    .cost-block {
+      background: linear-gradient(135deg, rgba(240,165,0,0.1) 0%, rgba(224,92,0,0.05) 100%);
+      border: 1px solid rgba(240,165,0,0.25);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .cost-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .cost-amount {
+      font-family: var(--font-head);
+      font-size: 28px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .cost-icon { font-size: 36px; }
+
+    /* ── NOTES ─────────────────────────────────────────────────── */
+    .notes-block {
+      background: rgba(255,255,255,0.02);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── META ROW ─────────────────────────────────────────────── */
+    .meta-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      flex-wrap: wrap;
+    }
+
+    .meta-row span { display: flex; align-items: center; gap: 4px; }
+
+    /* ── HISTORY SECTION ─────────────────────────────────────── */
+    .history-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .history-title {
+      font-family: var(--font-head);
+      font-size: 22px;
+      letter-spacing: 0.04em;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .history-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: border-color 0.18s;
+    }
+
+    .history-item:hover { border-color: var(--accent); }
+
+    .h-badge {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .h-info { flex: 1; min-width: 0; }
+
+    .h-query {
+      font-size: 13px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+
+    .h-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .h-severity { flex-shrink: 0; }
+
+    /* ── ERROR ─────────────────────────────────────────────────── */
+    .error-box {
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      color: #fca5a5;
+      font-size: 14px;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── VOICE BTN ─────────────────────────────────────────────── */
+    .voice-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-voice {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-voice.recording {
+      border-color: var(--high);
+      color: var(--high);
+      animation: border-pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes border-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(239,68,68,0); }
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 32px 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────────────────── -->
+<header>
+  <div class="header-badge">RAG-Powered Diagnostics</div>
+  <h1>AI VEHICLE<br>HEALTH ASSISTANT</h1>
+  <p class="subtitle">Describe your vehicle issue and get instant AI-powered diagnosis with cost estimates.</p>
+</header>
+
+<!-- ── MAIN ───────────────────────────────────────────────────────── -->
+<main>
+
+  <!-- ── INPUT CARD ─────────────────────────────────────────── -->
+  <div class="card">
+
+    <!-- Vehicle type -->
+    <div class="vehicle-label">01 — Select Vehicle Type</div>
+    <div class="vehicle-grid" id="vehicleGrid">
+      <button class="vehicle-btn active" data-type="bike" onclick="selectVehicle('bike', this)">
+        <span class="vehicle-icon">🏍️</span>
+        Bike / Scooter
+      </button>
+      <button class="vehicle-btn" data-type="car" onclick="selectVehicle('car', this)">
+        <span class="vehicle-icon">🚗</span>
+        Car / Sedan
+      </button>
+      <button class="vehicle-btn" data-type="suv" onclick="selectVehicle('suv', this)">
+        <span class="vehicle-icon">🚙</span>
+        SUV / Truck
+      </button>
+    </div>
+
+    <div style="height:28px;"></div>
+
+    <!-- Quick prompts -->
+    <div class="quick-label">Quick prompts</div>
+    <div class="quick-chips" id="quickChips"></div>
+
+    <!-- Query input -->
+    <div class="input-label">02 — Describe the Issue</div>
+    <textarea id="queryInput" placeholder="e.g. My bike engine makes a knocking noise when idling and loses power on hills…"></textarea>
+
+    <!-- Voice input -->
+    <div class="voice-row">
+      <button class="btn-voice" id="voiceBtn" onclick="toggleVoice()">
+        🎤 Voice Input
+      </button>
+      <span id="voiceStatus" style="font-size:12px; color:var(--muted); font-family:var(--font-mono);"></span>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-row">
+      <button class="diagnose" onclick="diagnose()" id="submitBtn">
+        <span>⚙</span>
+        DIAGNOSE NOW
+      </button>
+    </div>
+  </div>
+
+  <!-- ── RESULT AREA ─────────────────────────────────────────── -->
+  <div id="resultArea"></div>
+
+  <!-- ── HISTORY ────────────────────────────────────────────── -->
+  <div class="divider"></div>
+  <div class="history-header">
+    <div class="history-title">RECENT QUERIES</div>
+    <button class="btn-ghost" onclick="clearHistory()">Clear All</button>
+  </div>
+  <div class="history-list" id="historyList">
+    <div style="color:var(--muted); font-size:13px; font-family:var(--font-mono);">No queries yet.</div>
+  </div>
+
+</main>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+<footer>
+  AI Vehicle Health Assistant &nbsp;·&nbsp; Powered by RAG + Claude &nbsp;·&nbsp;
+  <a href="http://localhost:8000/docs" target="_blank">API Docs ↗</a>
+</footer>
+
+<script>
+/* ── CONSTANTS ──────────────────────────────────────────────────── */
+const API_BASE = 'http://localhost:8000';
+
+const QUICK_PROMPTS = {
+  bike: [
+    'Engine not starting in the morning',
+    'Black smoke from exhaust pipe',
+    'Chain slipping under acceleration',
+    'Brakes feel spongy',
+    'Engine overheating',
+  ],
+  car: [
+    'Car AC not cooling',
+    'Check engine light on',
+    'Grinding noise when braking',
+    'Car vibrates at high speed',
+    'Battery draining overnight',
+  ],
+  suv: [
+    '4WD not engaging properly',
+    'Rear suspension sagging',
+    'Turbo boost feels weak',
+    'DPF warning light on',
+    'Excessive body roll in corners',
+  ],
+};
+
+const VEHICLE_ICONS = { bike: '🏍️', car: '🚗', suv: '🚙' };
+
+/* ── STATE ─────────────────────────────────────────────────────── */
+let selectedVehicle = 'bike';
+let isRecording     = false;
+let recognition     = null;
+let localHistory    = [];
+
+/* ── VEHICLE SELECTION ─────────────────────────────────────────── */
+function selectVehicle(type, el) {
+  selectedVehicle = type;
+  document.querySelectorAll('.vehicle-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderQuickChips();
+}
+
+function renderQuickChips() {
+  const chips = QUICK_PROMPTS[selectedVehicle] || [];
+  document.getElementById('quickChips').innerHTML = chips.map(p =>
+    `<span class="chip" onclick="fillQuery('${p.replace(/'/g,"\\'")}'')">${p}</span>`
+  ).join('');
+}
+
+function fillQuery(text) {
+  document.getElementById('queryInput').value = text;
+}
+
+/* ── DIAGNOSE ──────────────────────────────────────────────────── */
+async function diagnose() {
+  const query = document.getElementById('queryInput').value.trim();
+  if (!query) { alert('Please describe the vehicle issue.'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;border-width:2px;display:inline-block;"></span> Analysing…';
+
+  showLoader();
+
+  try {
+    const res = await fetch(`${API_BASE}/ask`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, vehicle_type: selectedVehicle }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'API error');
+    }
+
+    const data = await res.json();
+    renderResult(data);
+    addToHistory(data);
+  } catch (e) {
+    document.getElementById('resultArea').innerHTML = `
+      <div class="error-box">⚠ ${e.message}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>⚙</span> DIAGNOSE NOW';
+  }
+}
+
+/* ── LOADER ────────────────────────────────────────────────────── */
+function showLoader() {
+  const steps = ['Embedding your query…', 'Searching vector database…', 'Retrieving top matches…', 'Generating diagnosis…'];
+  let i = 0;
+  document.getElementById('resultArea').innerHTML = `
+    <div class="card">
+      <div class="loader-wrap">
+        <div class="spinner"></div>
+        <div class="loader-text" id="loaderText">${steps[0]}</div>
+      </div>
+    </div>`;
+
+  const iv = setInterval(() => {
+    i = (i + 1) % steps.length;
+    const el = document.getElementById('loaderText');
+    if (el) el.textContent = steps[i]; else clearInterval(iv);
+  }, 900);
+}
+
+/* ── RENDER RESULT ─────────────────────────────────────────────── */
+function renderResult(d) {
+  const sev    = d.severity || 'Unknown';
+  const causes = (d.possible_causes  || []).map(c => `<li>${c}</li>`).join('');
+  const acts   = (d.suggested_actions|| []).map(a => `<li>${a}</li>`).join('');
+  const icon   = VEHICLE_ICONS[d.vehicle_type?.toLowerCase()] || '🔧';
+
+  document.getElementById('resultArea').innerHTML = `
+    <div class="card result-card">
+      <div class="result-header">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">
+            ${icon} ${d.vehicle_type} Diagnosis
+          </div>
+          <div class="result-title">Diagnosis Report</div>
+        </div>
+        <span class="severity-badge severity-${sev}">⬤ ${sev} Severity</span>
+      </div>
+
+      <div class="result-summary">"${d.problem_summary || ''}"</div>
+
+      <div class="result-grid">
+        <div class="result-section">
+          <div class="section-tag">🔍 Possible Causes</div>
+          <ul class="section-list">${causes || '<li>No causes identified</li>'}</ul>
+        </div>
+        <div class="result-section">
+          <div class="section-tag">🛠 Suggested Actions</div>
+          <ul class="section-list">${acts || '<li>Consult a mechanic</li>'}</ul>
+        </div>
+      </div>
+
+      <div class="cost-block">
+        <div>
+          <div class="cost-label">Estimated Repair Cost</div>
+          <div class="cost-amount">${d.estimated_cost_inr || 'N/A'}</div>
+        </div>
+        <div class="cost-icon">💰</div>
+      </div>
+
+      ${d.additional_notes ? `
+      <div class="notes-block">
+        <strong style="color:var(--accent);font-size:11px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;">Note</strong><br/>
+        ${d.additional_notes}
+      </div>` : ''}
+
+      <div class="meta-row">
+        <span>📂 ${d.retrieved_records_count} records retrieved</span>
+        <span>🕐 ${new Date().toLocaleTimeString()}</span>
+        <span>🔍 RAG + Claude</span>
+      </div>
+    </div>`;
+}
+
+/* ── HISTORY ───────────────────────────────────────────────────── */
+function addToHistory(d) {
+  localHistory.unshift(d);
+  if (localHistory.length > 10) localHistory.pop();
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  if (!localHistory.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px;font-family:var(--font-mono);">No queries yet.</div>';
+    return;
+  }
+  list.innerHTML = localHistory.map((d, i) => `
+    <div class="history-item" onclick="showHistoricResult(${i})">
+      <div class="h-badge">${VEHICLE_ICONS[d.vehicle_type?.toLowerCase()] || '🔧'}</div>
+      <div class="h-info">
+        <div class="h-query">${d.query}</div>
+        <div class="h-meta">${d.vehicle_type} · ${new Date().toLocaleDateString()}</div>
+      </div>
+      <div class="h-severity">
+        <span class="severity-badge severity-${d.severity}">${d.severity}</span>
+      </div>
+    </div>`
+  ).join('');
+}
+
+function showHistoricResult(i) {
+  renderResult(localHistory[i]);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function clearHistory() {
+  try {
+    await fetch(`${API_BASE}/history`, { method: 'DELETE' });
+  } catch(_) {}
+  localHistory = [];
+  renderHistory();
+}
+
+/* ── VOICE INPUT ───────────────────────────────────────────────── */
+function toggleVoice() {
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    alert('Voice input is not supported in this browser. Try Chrome.');
+    return;
+  }
+
+  if (isRecording) {
+    recognition?.stop();
+    return;
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang      = 'en-IN';
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+    isRecording = true;
+    document.getElementById('voiceBtn').classList.add('recording');
+    document.getElementById('voiceBtn').textContent = '⏹ Stop Recording';
+    document.getElementById('voiceStatus').textContent = 'Listening…';
+  };
+
+  recognition.onresult = (e) => {
+    const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+    document.getElementById('queryInput').value = transcript;
+  };
+
+  recognition.onend = () => {
+    isRecording = false;
+    document.getElementById('voiceBtn').classList.remove('recording');
+    document.getElementById('voiceBtn').innerHTML = '🎤 Voice Input';
+    document.getElementById('voiceStatus').textContent = '';
+  };
+
+  recognition.start();
+}
+
+/* ── INIT ──────────────────────────────────────────────────────── */
+renderQuickChips();
+</script>
+</body>
+</html>

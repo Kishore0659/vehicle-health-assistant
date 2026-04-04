@@ -1,0 +1,107 @@
+Problem: SUV 4WD system not engaging
+Cause: Faulty transfer case, damaged 4WD actuator, broken shift motor, low transfer case fluid
+Solution: Check transfer case fluid, replace actuator, repair shift motor, rebuild transfer case
+Severity: High
+Cost: INR 3000 to INR 40000
+
+Problem: SUV engine overheating under load
+Cause: Insufficient cooling capacity, clogged radiator, failing water pump, thermostat stuck closed
+Solution: Flush and refill coolant, clean radiator, replace water pump and thermostat
+Severity: High
+Cost: INR 2000 to INR 30000
+
+Problem: SUV rear suspension sagging
+Cause: Worn coil springs, failed air suspension, broken leaf springs, worn shock absorbers
+Solution: Replace coil/leaf springs, repair air suspension compressor, replace shocks
+Severity: Moderate
+Cost: INR 5000 to INR 35000
+
+Problem: SUV excessive body roll while cornering
+Cause: Worn sway bar links or bushings, failed shock absorbers, soft suspension tuning
+Solution: Replace sway bar links and bushings, replace shock absorbers
+Severity: Moderate
+Cost: INR 2000 to INR 12000
+
+Problem: SUV transfer case making noise
+Cause: Low or contaminated transfer case fluid, worn chain, damaged gears or bearings
+Solution: Change transfer case fluid, inspect and rebuild transfer case
+Severity: High
+Cost: INR 3000 to INR 45000
+
+Problem: SUV differential making whining noise
+Cause: Low differential fluid, worn ring and pinion gears, worn differential bearings
+Solution: Change differential fluid, inspect and rebuild differential
+Severity: High
+Cost: INR 2000 to INR 30000
+
+Problem: SUV poor fuel economy
+Cause: Carrying heavy loads, aggressive driving, clogged air filter, low tyre pressure, dirty fuel injectors
+Solution: Reduce load, replace air filter, inflate tyres, clean fuel injectors, use recommended fuel
+Severity: Low
+Cost: INR 500 to INR 8000
+
+Problem: SUV transmission overheating
+Cause: Towing beyond capacity, clogged transmission cooler, low transmission fluid, heavy city driving
+Solution: Reduce tow load, flush transmission fluid, check and clean transmission cooler
+Severity: High
+Cost: INR 3000 to INR 50000
+
+Problem: SUV all terrain tyres wearing unevenly
+Cause: Misaligned wheels, improper tyre pressure, worn suspension components, lack of rotation
+Solution: Wheel alignment, correct tyre pressure, replace worn parts, rotate tyres every 10000 km
+Severity: Moderate
+Cost: INR 500 to INR 6000
+
+Problem: SUV brake pulling to one side
+Cause: Stuck brake caliper, uneven brake pad wear, brake fluid contamination, warped rotor
+Solution: Replace or rebuild caliper, replace brake pads and rotors, flush brake fluid
+Severity: High
+Cost: INR 2000 to INR 12000
+
+Problem: SUV power steering failure
+Cause: Low power steering fluid, broken power steering pump, damaged steering rack, EPS motor failure
+Solution: Top up fluid, replace pump, repair or replace steering rack, replace EPS motor
+Severity: High
+Cost: INR 3000 to INR 25000
+
+Problem: SUV third row seating mechanism stuck
+Cause: Broken release cable, bent track, damaged recliner mechanism
+Solution: Inspect and replace release cable, repair track, replace recliner assembly
+Severity: Low
+Cost: INR 1000 to INR 8000
+
+Problem: SUV roof rails or sunroof leaking
+Cause: Worn roof rail seals, clogged sunroof drainage channels, cracked sunroof glass
+Solution: Replace seals, clear drainage channels, repair or replace sunroof glass
+Severity: Moderate
+Cost: INR 1000 to INR 20000
+
+Problem: SUV AWD warning light on dashboard
+Cause: Wheel speed sensor fault, AWD control module failure, low battery voltage
+Solution: Diagnose with OBD scanner, replace wheel speed sensor, check control module
+Severity: Moderate
+Cost: INR 2000 to INR 15000
+
+Problem: SUV towing causing sway
+Cause: Improper weight distribution, overloaded trailer, worn sway control hitch, unbalanced load
+Solution: Use sway control hitch, balance trailer load, reduce total trailer weight
+Severity: High
+Cost: INR 3000 to INR 15000
+
+Problem: SUV diesel particulate filter clogged
+Cause: Too much short distance city driving, incorrect oil type, infrequent regeneration cycles
+Solution: Forced DPF regeneration, DPF cleaning service, replace DPF if damaged
+Severity: High
+Cost: INR 5000 to INR 60000
+
+Problem: SUV turbocharger not boosting
+Cause: Boost pressure leak, faulty wastegate, clogged intercooler, worn turbo bearings
+Solution: Check for boost leaks, replace wastegate actuator, clean intercooler, rebuild or replace turbo
+Severity: High
+Cost: INR 5000 to INR 50000
+
+Problem: SUV ride quality harsh over bumps
+Cause: Worn shock absorbers, deflated tyres, worn bump stops, stiff spring rates
+Solution: Replace shock absorbers and struts, check tyre pressure, replace bump stops
+Severity: Moderate
+Cost: INR 4000 to INR 20000

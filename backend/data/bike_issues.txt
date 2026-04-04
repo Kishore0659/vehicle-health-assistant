@@ -1,0 +1,89 @@
+Problem: Bike engine not starting
+Cause: Dead battery, faulty spark plug, clogged fuel line, or empty fuel tank
+Solution: Check battery voltage (should be 12V+), replace spark plug, clean fuel line, refuel
+Severity: Moderate
+Cost: INR 200 to INR 2500
+
+Problem: Bike engine overheating
+Cause: Low coolant (for liquid-cooled), clogged air filter, lean fuel mixture, or continuous high-speed riding
+Solution: Let engine cool, check coolant level, clean or replace air filter, check carburetor jetting
+Severity: High
+Cost: INR 500 to INR 5000
+
+Problem: Bike brake not working properly
+Cause: Worn brake pads, air in brake lines, low brake fluid, or warped disc rotor
+Solution: Replace brake pads, bleed brake lines, top up brake fluid, resurface or replace disc rotor
+Severity: High
+Cost: INR 300 to INR 3000
+
+Problem: Bike producing black smoke from exhaust
+Cause: Rich fuel mixture, clogged air filter, worn piston rings, or oil burning
+Solution: Adjust carburetor or fuel injector, replace air filter, check piston rings and valve seals
+Severity: Moderate
+Cost: INR 500 to INR 8000
+
+Problem: Bike chain slipping or making noise
+Cause: Loose or stretched chain, worn sprockets, insufficient lubrication
+Solution: Adjust chain tension, lubricate chain, replace chain and sprockets if worn
+Severity: Moderate
+Cost: INR 300 to INR 3500
+
+Problem: Bike vibrating excessively at high speed
+Cause: Unbalanced wheels, loose wheel bearings, bent rim, or worn tires
+Solution: Balance wheels, replace wheel bearings, check and replace rim, replace tires
+Severity: Moderate
+Cost: INR 500 to INR 4000
+
+Problem: Bike not picking up speed (poor acceleration)
+Cause: Clogged carburetor jets, faulty throttle position sensor, worn clutch plates, choked air filter
+Solution: Clean carburetor, check TPS, replace clutch plates, replace air filter
+Severity: Moderate
+Cost: INR 400 to INR 6000
+
+Problem: Bike headlight not working
+Cause: Blown fuse, faulty bulb, broken wiring, or bad headlight switch
+Solution: Check and replace fuse, replace bulb, inspect wiring harness, replace switch
+Severity: Low
+Cost: INR 100 to INR 1500
+
+Problem: Bike fuel leakage
+Cause: Cracked fuel pipe, loose fuel cap, faulty petcock, or damaged carburetor float
+Solution: Replace fuel pipe, tighten fuel cap, replace petcock, repair or replace carburetor
+Severity: High
+Cost: INR 200 to INR 3000
+
+Problem: Bike clutch slipping
+Cause: Worn clutch plates, weak clutch springs, improper clutch adjustment
+Solution: Adjust clutch cable free play, replace clutch plates and springs
+Severity: Moderate
+Cost: INR 800 to INR 4000
+
+Problem: Bike making knocking noise from engine
+Cause: Low engine oil, worn piston, loose connecting rod, carbon buildup
+Solution: Check and top up engine oil, inspect piston and connecting rod, decarbonize engine
+Severity: High
+Cost: INR 1000 to INR 15000
+
+Problem: Bike tyres losing air frequently
+Cause: Puncture, valve stem leak, damaged rim seal
+Solution: Repair or replace tube/tyre, replace valve stem, check rim for damage
+Severity: Low
+Cost: INR 100 to INR 1500
+
+Problem: Bike indicator lights not working
+Cause: Blown bulb, faulty relay, broken switch, blown fuse
+Solution: Replace bulb, replace indicator relay, check switches and fuses
+Severity: Low
+Cost: INR 50 to INR 800
+
+Problem: Bike engine oil leaking
+Cause: Worn gaskets, loose drain plug, cracked engine casing, damaged oil seal
+Solution: Replace gaskets, tighten drain plug, repair casing, replace oil seal
+Severity: High
+Cost: INR 500 to INR 6000
+
+Problem: Bike starting but stalling immediately
+Cause: Idle speed too low, clogged pilot jet, faulty idle air control valve
+Solution: Adjust idle speed screw, clean pilot jet, check IAC valve
+Severity: Moderate
+Cost: INR 300 to INR 2500
