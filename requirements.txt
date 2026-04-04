@@ -10,7 +10,7 @@ numpy==1.26.4
 
 # LLM
 openai
-groq   ✅ ADD THIS
+groq   
 
 # Database
 sqlalchemy==2.0.35
